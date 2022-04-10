@@ -4,12 +4,11 @@ import MainAdapter
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -26,15 +25,20 @@ import java.util.*
  * Use the [MainFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : Fragment() {
+interface StartDragListener {
+    fun requestDrag(viewHolder: RecyclerView.ViewHolder?)
+}
+class MainFragment : Fragment(), StartDragListener {
 
     private val viewModel: MainViewModel by viewModels()
 
+    lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var binding: FragmentMainBinding
     private lateinit var recyclerView: RecyclerView
     val anim_duration: Long = 200
     lateinit var list: MutableList<Thing>
     var current_place: Int? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +46,7 @@ class MainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(inflater)
         recyclerView = binding.editList
-        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        itemTouchHelper = ItemTouchHelper(simpleCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
         return binding.root
     }
@@ -65,7 +69,7 @@ class MainFragment : Fragment() {
             toast()
             return true
         }
-        recyclerView.adapter = MainAdapter(list) { thing -> viewModel.deleteThing(thing) }
+        recyclerView.adapter = MainAdapter(list, this) { thing -> viewModel.deleteThing(thing) }
         binding.CardView.apply {
             if (visibility != View.VISIBLE) {
                 alpha = 0f
@@ -115,6 +119,8 @@ class MainFragment : Fragment() {
                 return false
             }
 
+            override fun isLongPressDragEnabled() = false
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             }
         }
@@ -125,5 +131,9 @@ class MainFragment : Fragment() {
             "Add a thing!",
             Toast.LENGTH_SHORT
         ).show()
+    }
+
+    override fun requestDrag(viewHolder: RecyclerView.ViewHolder?) {
+        viewHolder?.let { itemTouchHelper.startDrag(it) }
     }
 }
