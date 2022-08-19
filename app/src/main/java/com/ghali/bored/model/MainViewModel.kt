@@ -1,13 +1,11 @@
 package com.ghali.bored.model
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.room.Room
 import com.ghali.bored.constants.AWAY
 import com.ghali.bored.constants.HOME
 import com.ghali.bored.db.*
-import java.util.*
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -35,11 +33,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun swap(id1: Long, id2: Long, place: Int) {
         val list: List<Place> = placeDao.getSubList(id1, id2, place)
-        Log.d("tag", list.toString())
         val temp = list[0].order
         list[0].order = list[1].order
         list[1].order = temp
-        Log.d("tag", list.toString())
         placeDao.update(list)
     }
 

@@ -32,7 +32,7 @@ class CardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCardBinding.inflate(inflater)
         return binding.root
     }
@@ -41,9 +41,9 @@ class CardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.thing.text = text
         val r = Random
-        val floor = 240
+        val floor = 220
         val max = 256
-        binding.card.setBackgroundColor(Color.argb(255, r.nextInt(floor, max), r.nextInt(floor, max), r.nextInt(floor, max)))
+        binding.frameLayout.setBackgroundColor(Color.argb(255, r.nextInt(floor, max), r.nextInt(floor, max), r.nextInt(floor, max)))
     }
 
     companion object {
