@@ -1,3 +1,5 @@
+package com.ghali.bored.adapters
+
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -10,9 +12,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ghali.bored.R
 import com.ghali.bored.db.Thing
-import com.ghali.bored.ui.main.StartDragListener
 
-class MainAdapter(private val dataSet: MutableList<Thing>, private val startDragListener: StartDragListener, private val removeClickListener: (thing: Thing) -> Unit) :
+/*class MainAdapter(private val dataSet: MutableList<Thing>, private val startDragListener: StartDragListener, private val removeClickListener: (thing: Thing) -> Unit) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -67,4 +68,4 @@ class MainAdapter(private val dataSet: MutableList<Thing>, private val startDrag
     override fun getItemCount() = dataSet.size
 
 
-}
+}*/
